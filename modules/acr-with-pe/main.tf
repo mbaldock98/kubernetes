@@ -18,4 +18,9 @@ resource "azurerm_private_endpoint" "acr-pe" {
     is_manual_connection           = false
     subresource_names = ["registry"]
   }
+
+  private_dns_zone_group {
+    name                 = "${replace(var.name_prefix, "-", "")}acr-dns"
+    private_dns_zone_ids = [var.dns_zone_id]
+  }
 }
