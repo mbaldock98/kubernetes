@@ -30,3 +30,22 @@ module "kube-registry" {
   subnet_id      = module.kube-subnets["kube-registry"].subnet_id
   dns_zone_id    = module.kube-vnet.dns_zone_ids["azurecr.io"]
 }
+
+resource "azurerm_kubernetes_cluster" "kube-cluster" {
+  name                = "kube-cluster"
+  location            = azurerm_resource_group.kube-rg.location
+  resource_group_name = azurerm_resource_group.kube-rg.name
+  dns_prefix          = "mb-kube-cluster"
+  node_resource_group = "kube-rg-infra"
+
+  default_node_pool {
+    name       = "default"
+    node_count = 1
+    vm_size    = "Standard_D2_v2"
+  }
+
+  identity {
+    type = "SystemAssigned"
+  }
+
+}
