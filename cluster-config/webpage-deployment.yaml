@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-cool-webpage-deployment
+  labels:
+    app: my-cool-webpage
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-cool-webpage
+  template:
+    metadata:
+      labels:
+        app: my-cool-webpage
+    spec:
+      containers:
+      - name: my-cool-webpage
+        image: kuberegistryacr.azurecr.io/my-cool-webpage:latest
+        ports:
+        - containerPort: 80

@@ -49,3 +49,9 @@ resource "azurerm_kubernetes_cluster" "kube-cluster" {
   }
 
 }
+
+resource "azurerm_role_assignment" "kube-cluster-pull" {
+  scope                = module.kube-registry.acr-id
+  role_definition_name = "AcrPull"
+  principal_id         = azurerm_kubernetes_cluster.kube-cluster.identity[0].principal_id
+}
